@@ -27,6 +27,21 @@ describe Hangman do
       it "returns true" do
         hangman.guess("f").must_equal(true)
       end
+
+      it "stores the correct guesses" do
+        hangman.guess("l").must_equal(true)
+        hangman.guess("o").must_equal(true)
+
+        hangman.correct_guesses.must_equal(["l", "o"])
+      end
+
+      it "updates the hangman string" do
+        hangman.guess("l")
+        hangman.to_s.must_equal("_l____")
+
+        hangman.guess("w")
+        hangman.to_s.must_equal("_l_w__")
+      end
     end
   end
 end

@@ -1,5 +1,4 @@
 class Hangman
-  attr_reader :wrong_guesses
   attr_reader :wrong_guesses, :correct_guesses
 
   def initialize(word=null)
@@ -13,13 +12,15 @@ class Hangman
   end
 
   def guess(letter)
-    guess =  solution.downcase.include?(letter.downcase)
+    index = solution.downcase.index(letter.downcase)
+    index ? @correct_guesses << solution[index] : @wrong_guesses << letter
 
-    if guess
-      @correct_guesses << letter
-    else
-      @wrong_guesses << letter
-    end
-    guess
+    !!index
+  end
+
+  def to_s
+    @word.each_char.map do |letter|
+      correct_guesses.include?(letter) ? letter : "_"
+    end.join("")
   end
 end
