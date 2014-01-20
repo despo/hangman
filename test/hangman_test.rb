@@ -6,4 +6,14 @@ describe Hangman do
 
     hangman.solution.must_equal("pokemon")
   end
+
+  describe "guess" do
+    let(:hangman) { Hangman.new("flower") }
+
+    describe "when wrong" do
+      it "returns false" do
+        hangman.guess("c").must_equal(false)
+      end
+    end
+  end
 end
