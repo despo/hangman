@@ -14,6 +14,13 @@ describe Hangman do
       it "returns false" do
         hangman.guess("c").must_equal(false)
       end
+
+      it "stores the wrong guesses" do
+        hangman.guess("c").must_equal(false)
+        hangman.guess("p").must_equal(false)
+
+        hangman.wrong_guesses.must_equal(["c", "p"])
+      end
     end
 
     describe "when correct" do

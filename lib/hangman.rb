@@ -1,6 +1,9 @@
 class Hangman
+  attr_reader :wrong_guesses
+
   def initialize(word=null)
     @word = word
+    @wrong_guesses = []
   end
 
   def solution
@@ -8,6 +11,8 @@ class Hangman
   end
 
   def guess(letter)
-    solution.downcase.include?(letter.downcase)
+    guess = solution.downcase.include?(letter.downcase)
+    @wrong_guesses << letter unless guess
+    guess
   end
 end
