@@ -15,5 +15,11 @@ describe Hangman do
         hangman.guess("c").must_equal(false)
       end
     end
+
+    describe "when correct" do
+      it "returns true" do
+        hangman.guess("f").must_equal(true)
+      end
+    end
   end
 end
