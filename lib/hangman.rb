@@ -1,10 +1,10 @@
 class Hangman
   attr_reader :wrong_guesses, :correct_guesses
 
-  def initialize(word=null)
+  def initialize(word=nil, wrong_guesses=nil, correct_guesses=nil)
     @word = word
-    @wrong_guesses = []
-    @correct_guesses = []
+    @wrong_guesses = wrong_guesses || []
+    @correct_guesses = correct_guesses || []
   end
 
   def solution
