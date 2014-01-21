@@ -38,8 +38,12 @@ class HangmanApp < Sinatra::Base
   end
 
   class Dictionary
-    def self.random_word
-      File.read("/usr/share/dict/words").split("\n").sample
+    def self.random_word word=nil
+      loop do
+        word = File.read("words").split("\n").sample
+        return word if word.length > 3
+      end
+      word
     end
   end
 end
