@@ -5,11 +5,8 @@ require './lib/hangman'
 
 class HangmanApp < Sinatra::Base
 
-  before do
-    headers['Access-Control-Allow-Origin'] = '*'
-  end
-
   post '/hangman' do
+    headers['Access-Control-Allow-Origin'] = "*"
     hangman = Hangman.new(Dictionary.random_word)
 
     return_json({ hangman: hangman.to_s, token: token(hangman) })
@@ -17,12 +14,28 @@ class HangmanApp < Sinatra::Base
 
   put '/hangman' do
     letter = params["letter"]
+    headers['Access-Control-Allow-Origin'] = "*"
     word, correct_guesses, wrong_guesses = params_from_token(params["token"])
+
     hangman = Hangman.new(word, correct_guesses, wrong_guesses)
     guess = hangman.guess(letter)
     hangman_string = hangman.to_s
 
     return_json({ hangman: hangman_string, correct: guess, token: token(hangman) })
+  end
+
+  get '/hangman' do
+    headers['Access-Control-Allow-Origin'] = "*"
+    word, correct_guesses, wrong_guesses = params_from_token(params["token"])
+
+    hangman = Hangman.new(word)
+    return_json(solution: hangman.solution, token: token(hangman))
+  end
+
+  options '/hangman' do
+    headers['Access-Control-Allow-Origin'] = "*"
+    headers['Access-Control-Allow-Methods'] = "PUT, POST, GET, OPTIONS"
+    headers['Access-Control-Allow-Headers'] = "X-Requested-With"
   end
 
   def token(hangman)
@@ -34,7 +47,7 @@ class HangmanApp < Sinatra::Base
   def params_from_token(token)
     properties = eval(Base64.urlsafe_decode64(token))
 
-    [ properties[:solution], properties[:correct_guesses], properties[:wrong_gueses]  ]
+    [ properties[:solution], properties[:correct_guesses], properties[:wrong_guesses] ]
   end
 
   def return_json(data)
