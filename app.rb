@@ -4,6 +4,11 @@ require 'json'
 require './lib/hangman'
 
 class HangmanApp < Sinatra::Base
+
+  before do
+    headers['Access-Control-Allow-Origin'] = '*'
+  end
+
   post '/hangman' do
     hangman = Hangman.new(Dictionary.random_word)
 
