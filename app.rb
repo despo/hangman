@@ -42,6 +42,8 @@ class HangmanApp < Sinatra::Base
     headers['Access-Control-Allow-Headers'] = "X-Requested-With"
   end
 
+  private
+
   def token(hangman)
     Base64.urlsafe_encode64({solution: hangman.solution,
                              correct_guesses: hangman.correct_guesses,
