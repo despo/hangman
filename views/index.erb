@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <title>Hangman</title>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <canvas id="hangman-game" width="400" height="500"></canvas>
+
+      <div class="board">
+        <div class="hangman-word"> </div>
+
+        <div class="console">
+          <input type="hidden" class="token"> </input>
+          <input type="text" maxlength=1 class="letter"> </input>
+          <button id="guess">Guess</button>
+        </div>
+        <div class="attempts"></div>
+        <button id="new-game">Start a new game</button>
+      </div>
+      <br/>
+
+    </div>
+    <footer>
+    <div id="content"> <a href="http://github.com/despo/hangman">hangman</a> by despo </div>
+    </footer>
+  </body>
+</html>

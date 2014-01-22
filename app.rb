@@ -5,6 +5,10 @@ require './lib/hangman'
 
 class HangmanApp < Sinatra::Base
 
+  get '/' do
+    erb :index
+  end
+
   post '/hangman' do
     headers['Access-Control-Allow-Origin'] = "*"
     hangman = Hangman.new(Dictionary.random_word)

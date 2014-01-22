@@ -1,0 +1,188 @@
+function newGame() {
+  $.ajax({
+    type: "POST",
+    url: "/hangman",
+  }).done(function(data) {
+    $('.hangman-word').text(data.hangman);
+    $('.token').text(data.token);
+  }).fail(function(data) {
+    console.log(data)
+  });
+}
+
+function guess(token, letter) {
+  $.ajax({
+    type: "PUT",
+    dataType: 'json',
+    url: "/hangman",
+    data: { "token": token, "letter": letter},
+    beforeSend: function() {
+      $(".letter").prop('disabled', true);
+    }
+  }).done(function(data) {
+    $('.hangman-word').text(data.hangman);
+    $('.token').text(data.token);
+    if (!data.correct) {
+      failures = $('.wrong').length+1;
+      drawHangman(failures);
+    } else {
+      if (data.hangman.indexOf("_") == -1) {
+        $('.console').hide();
+      }
+    }
+    cssClass = data.correct ? 'correct' : 'wrong';
+    $('.attempts').append("<span class=" + cssClass +">"+letter+"</span>");
+    $(".letter").prop('disabled', false);
+  }).fail(function(data) {
+    console.log(data)
+  });
+}
+
+function getSolution(token) {
+  $.ajax({
+    type: "GET",
+    dataType: 'json',
+    url: "/hangman",
+    data: { "token": token },
+  }).done(function(data) {
+    var hangman_word = $('.hangman-word').text();
+    var solution = data.solution;
+
+    for (var i = solution.length-1; i >= 0; i--) {
+      if (hangman_word.charAt(i) != solution.charAt(i)) {
+        error_string = "<span class='error'>"+ solution.charAt(i) + "</span>";
+        updated_word = hangman_word
+        hangman_word = updated_word.substr(0, i) + error_string + updated_word.substr(i+1);
+      } else {
+        if (hangman_word.indexOf("_") == -1) {
+          $('.console').hide();
+        }
+      }
+    }
+    $('.hangman-word').html(hangman_word);
+  }).fail(function(data) {
+    console.log(data)
+  });
+}
+
+function drawHangman(failures){
+  var canvas = $('#hangman-game')[0];
+  var context = canvas.getContext("2d");
+  context.strokeStyle = '#000000';
+
+  switch (failures) {
+    case 1: drawHead(context); break;
+    case 2: drawBody(context); break;
+    case 3: drawRightHand(context); break;
+    case 4: drawLeftHand(context); break;
+    case 5: drawRightFoot(context); break;
+    case 6: drawLeftFoot(context); break;
+    case 7: var token = $('.token').text();
+            getSolution(token);
+            hang(context);
+            $('.console').slideToggle(1200);
+  }
+}
+
+function hang(context) {
+  context.strokeStyle = '#da5754';
+  drawHead(context);
+  drawBody(context);
+  drawRightHand(context);
+  drawLeftHand(context);
+  drawRightFoot(context);
+  drawLeftFoot(context);
+}
+
+function drawGallows(){
+  var canvas = $('#hangman-game')[0];
+  var context = canvas.getContext("2d");
+  canvas.width = canvas.width;
+
+  context.strokeStyle = '#000000';
+
+  context.lineWidth = 20;
+  context.beginPath();
+  context.moveTo(350, 450);
+  context.lineTo(10, 450);
+  context.lineTo(70, 450);
+
+  context.lineTo(70, 10);
+  context.lineTo(200, 10);
+  context.lineTo(200, 50);
+  context.stroke();
+}
+
+function drawHead(context) {
+  context.beginPath();
+  context.arc(200, 100, 50, 0, Math.PI*2, true);
+  context.closePath();
+  context.lineWidth = 4;
+  context.stroke();
+}
+
+function drawBody(context) {
+  context.beginPath();
+  context.moveTo(200, 150);
+  context.lineTo(200, 300);
+  context.stroke();
+}
+
+function drawRightHand(context) {
+  context.beginPath();
+  context.moveTo(200, 170);
+  context.lineTo(150, 250);
+  context.stroke();
+}
+
+function drawLeftHand(context) {
+  context.beginPath();
+  context.moveTo(200, 170);
+  context.lineTo(250, 250);
+  context.stroke();
+}
+
+function drawRightFoot(context) {
+  context.beginPath();
+  context.moveTo(200, 300);
+  context.lineTo(150, 380);
+  context.stroke();
+}
+
+function drawLeftFoot(context) {
+  context.beginPath();
+  context.moveTo(200, 300);
+  context.lineTo(250, 380);
+  context.stroke();
+}
+
+$(document).ready(function(){
+  drawGallows();
+  $('.console').hide();
+
+  $(document).on('click', '#new-game', function(e){
+    drawGallows();
+    $('.attempts').empty();
+
+    newGame();
+    $('.console').slideToggle(1200);
+    $('.letter').focus();
+  })
+
+  $(document).on('click', '#guess', function(e){
+    token = $('.token').text();
+    letter = $('.letter').val();
+    attempts = $('.attempts').text().toLowerCase();
+
+    $('.letter').focus();
+
+    if ($.isNumeric(letter) || letter.trim().length < 1 || attempts.indexOf(letter.toLowerCase()) != -1) {
+      $('.letter').addClass("error");
+      return;
+    }
+    $('.letter').removeClass("error");
+    $('.letter').val('');
+
+    guess(token, letter);
+  })
+});
