@@ -7,6 +7,10 @@ body {
   font-size: 16px;
 }
 
+a {
+  color: #b5b5b5;
+}
+
 header {
   text-align: center;
   background-color: #fdfdfd;
@@ -30,7 +34,7 @@ span.error {
   width: 1040px;
   margin: 0px auto;
   margin-top: 100px;
-  min-height: 750px;
+  min-height: 550px;
 }
 
 input[type='text'] {
@@ -98,6 +102,16 @@ canvas, .board {
   text-align: center;
 }
 
+.response, .request {
+  padding: 20px;
+  margin: 10px 0;
+  background-color: #b8c2e0;
+}
+
+section {
+  margin: 30px 0;
+}
+
 footer {
   padding-bottom: 10px;
   border-bottom: 5px solid #4c4066;
@@ -107,5 +121,9 @@ footer {
 
 footer #content {
   width: 1040px;
-  margin: 0px auto;
+  margin: 50px auto 0;
+}
+
+.divider {
+  color: purple;
 }

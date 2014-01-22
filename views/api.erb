@@ -1,0 +1,64 @@
+<h1>Hangman API</h1>
+
+<section>
+  <h2>Create new hangman game</h2>
+
+  <b>request</b><br/>
+  <div class="request">
+    <code><b>POST</b> /hangman</code>
+  </div>
+
+  <b>response</b><br/>
+  <div class="response">
+    <code>
+      { hangman: <b>hangman_string</b>,
+      token: <b>game token</b>
+      }
+    </code>
+  </div>
+</section>
+
+<section>
+  <h2>Guess a letter</h2>
+
+  <b>request</b><br/>
+  <div class="request">
+    <code><b>PUT</b> /hangman</code>
+    <code>
+      { token: <b>game token</b>,
+      letter: <b>guess</b>
+      }
+    </code>
+  </div>
+
+  <b>response</b><br/>
+  <div class="response">
+    <code>
+      { hangman: <b>hangman_string</b>,
+      token: <b>game token</b>,
+      correct: <b>true|false</b>
+      }
+    </code>
+  </div>
+</section>
+
+<section>
+  <h2>Get solution</h2>
+
+  <b>request</b><br/>
+  <div class="request">
+    <code><b>GET</b> /hangman</code>
+    <code>
+      { token: <b>game token</b> }
+    </code>
+  </div>
+
+  <b>response</b><br/>
+  <div class="response">
+    <code>
+      { solution: <b>game solution</b>,
+      token: <b>game token</b>
+      }
+    </code>
+  </div>
+</section>

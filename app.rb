@@ -9,6 +9,10 @@ class HangmanApp < Sinatra::Base
     erb :index
   end
 
+  get '/api' do
+    erb :api
+  end
+
   post '/hangman' do
     headers['Access-Control-Allow-Origin'] = "*"
     hangman = Hangman.new(Dictionary.random_word)
