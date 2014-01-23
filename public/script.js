@@ -27,6 +27,7 @@ function guess(token, letter) {
       drawHangman(failures);
     } else {
       if (data.hangman.indexOf("_") == -1) {
+        getWordDefinition(data.hangman);
         $('.console').hide();
       }
     }
