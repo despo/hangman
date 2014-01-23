@@ -91,6 +91,10 @@ button {
   color: #b5b5b5;
 }
 
+.definition {
+  margin-top: 50px;
+}
+
 canvas, .board {
   vertical-align: top;
   display: inline-block;

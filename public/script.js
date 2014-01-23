@@ -59,6 +59,7 @@ function getSolution(token) {
         }
       }
     }
+    getWordDefinition(solution);
     $('.hangman-word').html(hangman_word);
   }).fail(function(data) {
     console.log(data)
@@ -82,6 +83,26 @@ function drawHangman(failures){
             hang(context);
             $('.console').slideToggle(1200);
   }
+}
+
+function getWordDefinition(word) {
+  console.log(word);
+  $.ajax({
+    url: "http://api.wordnik.com:80/v4/word.json/"+word+"/definitions",
+    data: { limit: 200, includeRelated: false, useCanonical: false, includeTags: false, api_key: 'd55b886c9abe00340b00d0c2add0c12cc6b6ee7084476d96c' },
+    beforeSend: function() {
+      $('.definition').html("<img height=10 src=spinner.gif></img>");
+    }
+  }).done(function(data) {
+    if (data.length > 0) {
+      length = data.length > 2 ? 2 : data.length;
+      for (var i = 0; i < 2; i++) {
+        $('.definition').text(data[i].text);
+      }
+    }
+  }).fail(function() {
+    console.log("Unable to retrieve word definition from http://api.wordnik.com:80.");
+  });
 }
 
 function hang(context) {
@@ -163,6 +184,7 @@ $(document).ready(function(){
   $(document).on('click', '#new-game', function(e){
     drawGallows();
     $('.attempts').empty();
+    $('.definition').empty();
 
     newGame();
     $('.console').slideToggle(1200);
