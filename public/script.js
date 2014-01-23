@@ -83,14 +83,13 @@ function drawHangman(failures){
     case 5: drawRightFoot(context); break;
     case 6: drawLeftFoot(context); break;
     case 7: var token = $('.token').text();
+            $('.console').toggle('scale');
             getSolution(token);
             hang(context);
-            $('.console').slideToggle('slow');
   }
 }
 
 function getWordDefinition(word) {
-  console.log(word);
   $.ajax({
     url: "http://api.wordnik.com:80/v4/word.json/"+word+"/definitions",
     data: { limit: 200, includeRelated: false, useCanonical: false, includeTags: false, api_key: 'd55b886c9abe00340b00d0c2add0c12cc6b6ee7084476d96c' },
@@ -98,13 +97,15 @@ function getWordDefinition(word) {
       $('.definition').html("<img height=50 src=spinner.gif></img>");
     }
   }).done(function(data) {
+    $('.definition').text("");
     if (data.length > 0) {
       length = data.length > 2 ? 2 : data.length;
-      for (var i = 0; i < 2; i++) {
+      for (var i = 0; i < length; i++) {
         $('.definition').text(data[i].text);
       }
     }
   }).fail(function() {
+    $('.definition').text("");
     console.log("Unable to retrieve word definition from http://api.wordnik.com:80.");
   });
 }
@@ -195,7 +196,7 @@ $(document).ready(function(){
     $('.definition').empty();
 
     newGame();
-    $('.console').slideToggle('slow');
+    $('.console').toggle('scale');
     $('.letter').focus();
   })
 
