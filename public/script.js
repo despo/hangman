@@ -19,7 +19,11 @@ function guess(token, letter) {
     beforeSend: function() {
       $(".letter").prop('disabled', true);
     }
-  }).done(function(data) {
+  }).done(function(data, textStatus, xhr) {
+    if (xhr.status == 304) {
+      $('.letter').addClass("error");
+      return;
+    }
     $('.hangman-word').text(data.hangman);
     $('.token').text(data.token);
     if (!data.correct) {
@@ -33,7 +37,6 @@ function guess(token, letter) {
     }
     cssClass = data.correct ? 'correct' : 'wrong';
     $('.attempts').append("<span class=" + cssClass +">"+letter+"</span>");
-    $(".letter").prop('disabled', false);
   }).fail(function(data) {
     console.log(data)
   });
@@ -82,7 +85,7 @@ function drawHangman(failures){
     case 7: var token = $('.token').text();
             getSolution(token);
             hang(context);
-            $('.console').slideToggle(1200);
+            $('.console').slideToggle('slow');
   }
 }
 
@@ -92,7 +95,7 @@ function getWordDefinition(word) {
     url: "http://api.wordnik.com:80/v4/word.json/"+word+"/definitions",
     data: { limit: 200, includeRelated: false, useCanonical: false, includeTags: false, api_key: 'd55b886c9abe00340b00d0c2add0c12cc6b6ee7084476d96c' },
     beforeSend: function() {
-      $('.definition').html("<img height=10 src=spinner.gif></img>");
+      $('.definition').html("<img height=50 src=spinner.gif></img>");
     }
   }).done(function(data) {
     if (data.length > 0) {
@@ -118,6 +121,10 @@ function hang(context) {
 
 function drawGallows(){
   var canvas = $('#hangman-game')[0];
+  if (canvas == undefined) {
+    return;
+  }
+
   var context = canvas.getContext("2d");
   canvas.width = canvas.width;
 
@@ -188,7 +195,7 @@ $(document).ready(function(){
     $('.definition').empty();
 
     newGame();
-    $('.console').slideToggle(1200);
+    $('.console').slideToggle('slow');
     $('.letter').focus();
   })
 
@@ -196,16 +203,16 @@ $(document).ready(function(){
     token = $('.token').text();
     letter = $('.letter').val();
     attempts = $('.attempts').text().toLowerCase();
-
+    $('.letter').val('');
     $('.letter').focus();
 
-    if ($.isNumeric(letter) || letter.trim().length < 1 || attempts.indexOf(letter.toLowerCase()) != -1) {
+    if ($.isNumeric(letter) || letter.trim().length < 1) {
       $('.letter').addClass("error");
       return;
     }
     $('.letter').removeClass("error");
-    $('.letter').val('');
 
     guess(token, letter);
+    $(".letter").prop('disabled', false);
   })
 });

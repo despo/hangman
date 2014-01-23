@@ -25,6 +25,9 @@ class HangmanApp < Sinatra::Base
     headers['Access-Control-Allow-Origin'] = "*"
     word, correct_guesses, wrong_guesses = params_from_token(params["token"])
 
+    attempts = correct_guesses.map(&:downcase) + wrong_guesses.map(&:downcase) rescue []
+    return status(304) if attempts.include?(letter.downcase)
+
     hangman = Hangman.new(word, correct_guesses, wrong_guesses)
     guess = hangman.guess(letter)
     hangman_string = hangman.to_s

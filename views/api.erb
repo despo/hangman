@@ -31,13 +31,20 @@
     </code>
   </div>
 
-  <b>response</b><br/>
+  <b>responses</b><br/>
   <div class="response">
     <code>
       { hangman: <b>hangman_string</b>,
       token: <b>game token</b>,
       correct: <b>true|false</b>
       }
+    </code>
+  </div>
+
+  <small><b>When the letter has already been tried out</b></small>
+  <div class="response">
+    <code>
+      status 304
     </code>
   </div>
 </section>
