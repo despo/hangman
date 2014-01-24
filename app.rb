@@ -54,13 +54,13 @@ class HangmanApp < Sinatra::Base
   def token(hangman)
     Base64.urlsafe_encode64({solution: hangman.solution,
                              correct_guesses: hangman.correct_guesses,
-                             wrong_guesses: hangman.wrong_guesses}.to_s)
+                             wrong_guesses: hangman.wrong_guesses}.to_json)
   end
 
   def params_from_token(token)
-    properties = eval(Base64.urlsafe_decode64(token))
+    properties = JSON.parse(Base64.urlsafe_decode64(token))
 
-    [ properties[:solution], properties[:correct_guesses], properties[:wrong_guesses] ]
+    [ properties["solution"], properties["correct_guesses"], properties["wrong_guesses"] ]
   end
 
   def return_json(data)
