@@ -45,7 +45,7 @@ class HangmanApp < Sinatra::Base
 
   options '/hangman' do
     headers['Access-Control-Allow-Origin'] = "*"
-    headers['Access-Control-Allow-Methods'] = "PUT, POST, GET, OPTIONS"
+    headers['Access-Control-Allow-Methods'] = "PUT"
     headers['Access-Control-Allow-Headers'] = "X-Requested-With"
   end
 
