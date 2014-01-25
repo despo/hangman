@@ -43,5 +43,18 @@ describe Hangman do
         hangman.to_s.must_equal("_l_w__")
       end
     end
+
+    describe "#hint" do
+      it "gives hint to player" do
+        hangman.solution.must_include(hangman.hint)
+      end
+
+      it "is a correct guess" do
+        hint = hangman.hint
+        hangman.guess(hint)
+
+        hangman.correct_guesses.must_include(hint)
+      end
+    end
   end
 end

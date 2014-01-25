@@ -10,6 +10,9 @@ body {
 
 a {
   color: #b5b5b5;
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px solid #b5b5b5;
 }
 
 header {

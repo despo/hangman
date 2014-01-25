@@ -26,6 +26,10 @@ class Hangman
     !!index
   end
 
+  def hint
+    (solution.downcase.split("") - correct_guesses.map(&:downcase) - wrong_guesses.map(&:downcase)).sample
+  end
+
   def to_s
     @word.each_char.map do |letter|
       correct_guesses.include?(letter) ? letter : "_"

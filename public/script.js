@@ -42,6 +42,20 @@ function guess(token, letter) {
   });
 }
 
+function getHint(token) {
+  $.ajax({
+    type: "GET",
+    dataType: 'json',
+    url: "/hangman/hint",
+    data: { "token": token},
+    beforeSend: function() {
+      $(".letter").prop('disabled', true);
+    }
+  }).done(function(data, textStatus, xhr) {
+    $(".letter").val(data.hint);
+  })
+}
+
 function getSolution(token) {
   $.ajax({
     type: "GET",
@@ -216,4 +230,9 @@ $(document).ready(function(){
     guess(token, letter);
     $(".letter").prop('disabled', false);
   })
+
+  $(document).on('click', '#hint', function(e){
+    getHint($('.token').text());
+  })
+
 });

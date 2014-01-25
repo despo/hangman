@@ -43,6 +43,13 @@ class HangmanApp < Sinatra::Base
     return_json(solution: hangman.solution, token: token(hangman))
   end
 
+  get '/hangman/hint' do
+    word, correct_guesses, wrong_guesses = params_from_token(params["token"])
+
+    hangman = Hangman.new(word, correct_guesses, wrong_guesses)
+    return_json(hint: hangman.hint, token: token(hangman))
+  end
+
   options '/hangman' do
     headers['Access-Control-Allow-Origin'] = "*"
     headers['Access-Control-Allow-Methods'] = "PUT"
