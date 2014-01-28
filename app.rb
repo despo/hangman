@@ -77,11 +77,7 @@ class HangmanApp < Sinatra::Base
 
   class Dictionary
     def self.random_word word=nil
-      loop do
-        word = File.read("words").split("\n").sample
-        return word if word.length > 3
-      end
-      word
+      File.read("words").scan(/^\w{3,}$/).sample
     end
   end
 end
