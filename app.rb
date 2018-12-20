@@ -15,7 +15,7 @@ class HangmanApp < Sinatra::Base
 
   post '/hangman' do
     headers['Access-Control-Allow-Origin'] = "*"
-    hangman = Hangman.new(Dictionary.random_word)
+    hangman = Hangman.new(Dictionary.random_word.downcase)
 
     return_json({ hangman: hangman.to_s, token: token(hangman) })
   end
