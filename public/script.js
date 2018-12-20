@@ -235,4 +235,10 @@ $(document).ready(function(){
     getHint($('.token').text());
   })
 
+  $(document).on('keypress', 'input.letter', function(e){
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+      $('#guess').click();
+    }
+  })
 });
