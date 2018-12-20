@@ -1,5 +1,7 @@
 # Hangman API
 
+![Hangman](hangman.png)
+
 
 ### Create new hangman game
 
