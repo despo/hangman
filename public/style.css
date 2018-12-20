@@ -116,11 +116,11 @@ canvas, .board {
 }
 
 section {
-  margin: 30px 0;
+  margin: 40px 0;
 }
 
 footer {
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   width: 100%;
   position: fixed;
   bottom: 0px;
@@ -130,9 +130,13 @@ footer {
 
 footer #content {
   width: 1040px;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 
 .divider {
   color: purple;
+}
+
+.right {
+  float: right;
 }
